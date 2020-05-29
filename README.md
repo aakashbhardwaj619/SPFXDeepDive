@@ -1,3 +1,5 @@
+![SPFx CI CD](https://github.com/aakashbhardwaj619/SPFXDeepDive/workflows/SPFx%20CI%20CD/badge.svg?branch=githubactions&event=push)
+
 # Test List Items
 
 ## Summary
