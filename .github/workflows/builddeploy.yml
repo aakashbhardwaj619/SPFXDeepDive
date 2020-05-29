@@ -28,7 +28,7 @@ jobs:
       
     - name: Test solution
       run: npm test
-      
+              
     - name: Bundle and package
       run: |
         gulp bundle --ship
@@ -38,13 +38,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         path: sharepoint/solution/test-list-items.sppkg
-        
-    - name: 'Copy Files to: ${GITHUB_WORKSPACE}/drop'
-      run: cp 'sharepoint/solution/test-list-items.sppkg' '${GITHUB_WORKSPACE}'
-      
-    - name: 'Publish Artifact: drop'
-      uses: actions/upload-artifact@v2
-      
+              
     - name: Office 365 CLI Login
       uses: pnp/action-cli-login@v1.0.0
       with:
