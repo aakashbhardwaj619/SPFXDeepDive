@@ -40,7 +40,7 @@ jobs:
         path: sharepoint/solution/test-list-items.sppkg
         
     - name: 'Copy Files to: ${GITHUB_WORKSPACE}/drop'
-      run: cp '/**\*.sppkg' '${GITHUB_WORKSPACE}/drop'
+      run: cp 'sharepoint/solution/test-list-items.sppkg' '${GITHUB_WORKSPACE}/drop'
       
     - name: 'Publish Artifact: drop'
       uses: actions/upload-artifact@v2
