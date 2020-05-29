@@ -37,8 +37,14 @@ jobs:
     - name: Upload Build Package
       uses: actions/upload-artifact@v2
       with:
-        path: ./*.sppkg
+        path: sharepoint/solution/test-list-items.sppkg
         
+    - name: 'Copy Files to: ${GITHUB_WORKSPACE}/drop'
+      run: Copy '/**\*.sppkg' '${GITHUB_WORKSPACE}/drop'
+      
+    - name: 'Publish Artifact: drop'
+      uses: actions/upload-artifact@v2
+      
     - name: Office 365 CLI Login
       uses: pnp/action-cli-login@v1.0.0
       with:
