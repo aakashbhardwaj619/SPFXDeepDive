@@ -37,7 +37,7 @@ jobs:
     - name: Upload Build Package
       uses: actions/upload-artifact@v2
       with:
-        path: /**/*.sppkg
+        path: '**/*.sppkg'
         
     - name: Office 365 CLI Login
       uses: pnp/action-cli-login@v1.0.0
