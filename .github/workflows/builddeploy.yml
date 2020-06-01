@@ -6,10 +6,14 @@ on:
       - dev
       - githubactions
 
+env:
+  siteUrl: https://in8aakbh.sharepoint.com/sites/AppIndex
+  packagePath: sharepoint/solution/test-list-items.sppkg
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
 
     - name: Checkout code
@@ -45,10 +49,9 @@ jobs:
         ADMIN_USERNAME: ${{ secrets.adminUsername }}
         ADMIN_PASSWORD: ${{ secrets.adminPassword }}
         
-    - name: Office 365 CLI Deploy App
-      uses: pnp/action-cli-deploy@v1.0.1
+      # Run script bash
+    - name: Office 365 CLI Runscript bash
+      uses: pnp/action-cli-runscript@v1.0.0
       with:
-        APP_FILE_PATH: sharepoint/solution/test-list-items.sppkg
-        SCOPE: sitecollection
-        SITE_COLLECTION_URL: https://in8aakbh.sharepoint.com/sites/AppIndex
-        OVERWRITE: true
+        O365_CLI_SCRIPT_PATH: './scripts/DeployPackage.sh'
+
