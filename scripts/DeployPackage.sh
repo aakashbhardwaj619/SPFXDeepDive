@@ -1,4 +1,5 @@
 echo 'Adding App Package'
-app=$(o365 spo app add --filePath ${{ env.packagePath }} --scope sitecollection --appCatalogUrl ${{ env.siteUrl }})
+echo '$siteUrl'
+app=$(o365 spo app add --filePath $packagePath --scope sitecollection --appCatalogUrl $siteUrl )
 echo 'Deploying App'
-o365 spo app deploy --id $app --scope sitecollection --appCatalogUrl ${{ env.siteUrl }}
+o365 spo app deploy --id $app --scope sitecollection --appCatalogUrl $siteUrl
