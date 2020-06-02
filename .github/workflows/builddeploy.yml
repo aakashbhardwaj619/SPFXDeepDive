@@ -76,7 +76,7 @@ jobs:
     needs: [build]
     if: github.ref == 'refs/heads/beta'
     env:
-      siteUrl: https://in8aakbh.sharepoint.com/sites/AppIndex
+      siteUrl: https://in8aakbh.sharepoint.com/sites/UHSD2
 
     steps:
 
