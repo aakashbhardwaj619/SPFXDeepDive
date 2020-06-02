@@ -7,11 +7,12 @@ on:
       - beta
       - githubactionsgeneral
 
+env:
+  packageName: test-list-items.sppkg
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      packageName: test-list-items.sppkg
     
     steps:
 
