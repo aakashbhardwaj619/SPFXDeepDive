@@ -62,14 +62,14 @@ jobs:
         ADMIN_USERNAME: ${{ secrets.adminUsername }}
         ADMIN_PASSWORD: ${{ secrets.adminPassword }}
         
-      # Run script bash
-    - name: Office 365 CLI Runscript bash
-      uses: pnp/action-cli-runscript@v1.0.0
-      env:
-        packagePath: packageFile/test-list-items.sppkg
+    - name: Office 365 CLI Deploy App
+      uses: pnp/action-cli-deploy@v1.0.1
       with:
-        O365_CLI_SCRIPT_PATH: './scripts/DeployPackage.sh'
-        
+        APP_FILE_PATH: packageFile/test-list-items.sppkg
+        SCOPE: sitecollection
+        SITE_COLLECTION_URL: ${{ env.siteUrl }}
+        OVERWRITE: true
+                
   deployPROD:
     runs-on: ubuntu-latest
     needs: [build]
