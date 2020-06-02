@@ -1,0 +1,100 @@
+name: SPFx CI CD
+
+on:
+  push:
+    branches:
+      - beta
+      - githubactionsgeneral
+
+env:
+  packageName: test-list-items.sppkg
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v1.4.2
+      with:
+        node-version: 10.x
+
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build solution
+      run: gulp build
+      
+    - name: Test solution
+      run: npm test
+              
+    - name: Bundle and package
+      run: |
+        gulp bundle --ship
+        gulp package-solution --ship
+
+    - name: Upload Build Package
+      uses: actions/upload-artifact@v2
+      with:
+        name: packageFile
+        path: sharepoint/solution/${{ env.packageName }}
+
+  deployUAT:
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.ref == 'refs/heads/githubactionsgeneral'
+    env:
+      siteUrl: https://in8aakbh.sharepoint.com/sites/AppIndex
+
+    steps:
+
+    - name: Download pacakge (sppkg file)
+      uses: actions/download-artifact@v1
+      with:
+        name: packageFile
+        
+    - name: Office 365 CLI Login
+      uses: pnp/action-cli-login@v1.0.0
+      with:
+        ADMIN_USERNAME: ${{ secrets.adminUsername }}
+        ADMIN_PASSWORD: ${{ secrets.adminPassword }}
+        
+    - name: Office 365 CLI Deploy App
+      uses: pnp/action-cli-deploy@v1.0.1
+      with:
+        APP_FILE_PATH: packageFile/${{ env.packageName }}
+        SCOPE: sitecollection
+        SITE_COLLECTION_URL: ${{ env.siteUrl }}
+        OVERWRITE: true
+                
+  deployPROD:
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.ref == 'refs/heads/beta'
+    env:
+      siteUrl: https://in8aakbh.sharepoint.com/sites/AppIndex
+
+    steps:
+
+    - name: Download pacakge (sppkg file)
+      uses: actions/download-artifact@v1
+      with:
+        name: packageFile
+
+    - name: Office 365 CLI Login
+      uses: pnp/action-cli-login@v1.0.0
+      with:
+        ADMIN_USERNAME: ${{ secrets.adminUsername }}
+        ADMIN_PASSWORD: ${{ secrets.adminPassword }}
+        
+    - name: Office 365 CLI Deploy App
+      uses: pnp/action-cli-deploy@v1.0.1
+      with:
+        APP_FILE_PATH: packageFile/${{ env.packageName }}
+        SCOPE: sitecollection
+        SITE_COLLECTION_URL: ${{ env.siteUrl }}
+        OVERWRITE: true
