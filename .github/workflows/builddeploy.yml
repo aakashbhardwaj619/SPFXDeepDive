@@ -39,7 +39,8 @@ jobs:
     - name: Upload Build Package
       uses: actions/upload-artifact@v2
       with:
-        path: sharepoint/solution/test-list-items.sppkg
+        name: packageFile
+        path: ${{ env.packagePath }}
 
   deployUAT:
     runs-on: ubuntu-latest
@@ -47,10 +48,14 @@ jobs:
     if: github.ref == 'refs/heads/githubactionsgeneral'
     env:
       siteUrl: https://in8aakbh.sharepoint.com/sites/AppIndex
-      packagePath: sharepoint/solution/test-list-items.sppkg
 
     steps:
 
+    - name: Download pacakge (sppkg file)
+      uses: actions/download-artifact@v1
+      with:
+        name: packageFile
+        
     - name: Office 365 CLI Login
       uses: pnp/action-cli-login@v1.0.0
       with:
@@ -60,6 +65,8 @@ jobs:
       # Run script bash
     - name: Office 365 CLI Runscript bash
       uses: pnp/action-cli-runscript@v1.0.0
+      env:
+        packagePath: packageFile/test-list-items.sppkg
       with:
         O365_CLI_SCRIPT_PATH: './scripts/DeployPackage.sh'
         
