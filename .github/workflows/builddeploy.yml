@@ -3,14 +3,15 @@ name: SPFx CI CD
 on:
   push:
     branches:
-      - dev
+      - master
+      - beta
       - githubactionsgeneral
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      packagePath: sharepoint/solution/test-list-items.sppkg
+      packageName: test-list-items.sppkg
     
     steps:
 
@@ -40,7 +41,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: packageFile
-        path: ${{ env.packagePath }}
+        path: sharepoint/solution/${{ env.packageName }}
 
   deployUAT:
     runs-on: ubuntu-latest
@@ -65,7 +66,7 @@ jobs:
     - name: Office 365 CLI Deploy App
       uses: pnp/action-cli-deploy@v1.0.1
       with:
-        APP_FILE_PATH: packageFile/test-list-items.sppkg
+        APP_FILE_PATH: packageFile/${{ env.packageName }}
         SCOPE: sitecollection
         SITE_COLLECTION_URL: ${{ env.siteUrl }}
         OVERWRITE: true
@@ -75,10 +76,14 @@ jobs:
     needs: [build]
     if: github.ref == 'refs/heads/master'
     env:
-      siteUrl: https://in8aakbh.sharepoint.com/sites/UHSD2
-      packagePath: sharepoint/solution/test-list-items.sppkg
+      siteUrl: https://in8aakbh.sharepoint.com/sites/AppIndex
 
     steps:
+
+    - name: Download pacakge (sppkg file)
+      uses: actions/download-artifact@v1
+      with:
+        name: packageFile
 
     - name: Office 365 CLI Login
       uses: pnp/action-cli-login@v1.0.0
@@ -86,8 +91,10 @@ jobs:
         ADMIN_USERNAME: ${{ secrets.adminUsername }}
         ADMIN_PASSWORD: ${{ secrets.adminPassword }}
         
-      # Run script bash
-    - name: Office 365 CLI Runscript bash
-      uses: pnp/action-cli-runscript@v1.0.0
+    - name: Office 365 CLI Deploy App
+      uses: pnp/action-cli-deploy@v1.0.1
       with:
-        O365_CLI_SCRIPT_PATH: './scripts/DeployPackage.sh'
+        APP_FILE_PATH: packageFile/${{ env.packageName }}
+        SCOPE: sitecollection
+        SITE_COLLECTION_URL: ${{ env.siteUrl }}
+        OVERWRITE: true
