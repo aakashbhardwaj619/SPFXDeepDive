@@ -4,11 +4,14 @@ on:
   push:
     branches:
       - dev
-      - githubactions
 
 env:
   siteUrl: https://in8aakbh.sharepoint.com/sites/AppIndex
   packagePath: sharepoint/solution/test-list-items.sppkg
+  componentSiteUrl: https://in8aakbh.sharepoint.com/sites/AppIndex
+  componentList: LEGOWeb Component Deployment
+  componentTitle: LEGOWeb-RatingCard
+  environment: TEST
 
 jobs:
   build:
