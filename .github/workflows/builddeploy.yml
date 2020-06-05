@@ -70,6 +70,11 @@ jobs:
         SCOPE: sitecollection
         SITE_COLLECTION_URL: ${{ env.siteUrl }}
         OVERWRITE: true
+        
+    - name: Send email
+      uses: pnp/action-cli-runscript@v1.0.0
+      with:
+         O365_CLI_SCRIPT: o365 spo mail send --webUrl ${{ env.siteUrl }} --to 'aakash.bhardwaj@in8aakbh.onmicrosoft.com,aakash.bhardwaj@consultant.lego.com' --subject 'Deployment done' --body '<h2>Office 365 CLI</h2> <p>The deployment is completed on ${{ env.siteUrl }}.</p> <br/> Email sent via Office 365 CLI GitHub Action.'
                 
   deployPROD:
     runs-on: ubuntu-latest
