@@ -41,3 +41,5 @@ for siteUrl in "${sites[@]}"; do
     o365 spo app install --id $app --siteUrl $siteUrl --scope sitecollection
   fi
 done
+
+o365 spo mail send --webUrl $componentSiteUrl --to 'aakash.bhardwaj@in8aakbh.onmicrosoft.com,rashmi.rawat@in8aakbh.onmicrosoft.com,aakash.bhardwaj@consultant.lego.com' --subject 'Deployment of ${{ env.packageName }} completed' --body '<h2>Deployment Completed</h2> <p>Deployment of $packagePath completed.</p> <br/> You are requested to test it and provide your feedback. If you found anything wrong related to this feature, please inform quickly for rollback.'
