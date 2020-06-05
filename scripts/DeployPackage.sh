@@ -18,7 +18,7 @@ packagePath=$packagePath
 sites=()
 
 while read component; do
-  sites+=$component
+  sites+=($component)
 done < <(o365 spo listitem list --title "$componentList" --webUrl $componentSiteUrl --filter "Environment eq '$environment' and Component eq '$componentTitle'" --fields "Title" --output json | jq -r '.[] | .Title')
 
 echo "Deployment to begin"
