@@ -10,7 +10,7 @@ env:
   packagePath: sharepoint/solution/test-list-items.sppkg
   componentSiteUrl: https://in8aakbh.sharepoint.com/sites/AppIndex
   componentList: LEGOWeb Component Deployment
-  componentTitle: LEGOWeb-RatingCard
+  componentTitle: test-list-items-client-side-solution
   environment: TEST
 
 jobs:
@@ -44,7 +44,7 @@ jobs:
     - name: Upload Build Package
       uses: actions/upload-artifact@v2
       with:
-        path: sharepoint/solution/test-list-items.sppkg
+        path: ${{ env.packagePath }}
               
     - name: Office 365 CLI Login
       uses: pnp/action-cli-login@v1.0.0
